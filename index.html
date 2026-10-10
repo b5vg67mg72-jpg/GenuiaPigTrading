@@ -194,6 +194,10 @@
     .principle:hover{border-color:rgba(213,154,99,.55)!important;background:#132129}.principle p{color:var(--muted)}
     .about{background:#111d22}.network-note,.case,.category,.fit-grid,.booking-step{background:#132027}
     .network-note{box-shadow:0 16px 40px rgba(0,0,0,.12)}
+    .founder-facts{display:grid;grid-template-columns:1fr 1fr;margin:30px 0 0;border-top:1px solid #334248;border-left:1px solid #334248}
+    .founder-facts div{min-height:88px;padding:17px 19px;border-right:1px solid #334248;border-bottom:1px solid #334248;background:#0f1a20}
+    .founder-facts dt{margin-bottom:8px;color:var(--red);font-size:8px;font-weight:700;letter-spacing:.15em;text-transform:uppercase}
+    .founder-facts dd{margin:0;color:var(--ink);font:500 16px/1.35 var(--serif)}
     .credentials{border-color:#425158}.credential{border-color:#334248}
     .founder-signoff:before{background:var(--red);color:#091217}
     .purpose{background:linear-gradient(125deg,#071116,#10252d)}.purpose-copy{border-color:#35474e}.purpose-copy p{color:#aeb9bc}
@@ -219,14 +223,14 @@
       .hero-grid{grid-template-columns:1fr;gap:54px}.overview{max-width:640px}
     }
     @media(max-width:960px){.nav-links{top:76px}}
-    @media(max-width:620px){.hero h1{font-size:clamp(41px,13vw,52px);line-height:1.01}.hero h1 em{margin-top:7px}.overview{border:1px solid #2b3d44}.principle-grid{margin-top:-14px}}
+    @media(max-width:620px){.hero h1{font-size:clamp(41px,13vw,52px);line-height:1.01}.hero h1 em{margin-top:7px}.overview{border:1px solid #2b3d44}.principle-grid{margin-top:-14px}.founder-facts{grid-template-columns:1fr}.founder-facts div{min-height:0}}
   </style>
 </head>
 <body>
   <header class="site-header">
     <div class="wrap header-inner">
       <a class="brand" href="#top" aria-label="Guinea Pig Japan Sourcing home"><img class="brand-logo" src="assets/guinea-pig-trading-logo.png" alt=""><span><span class="brand-name">Guinea Pig Trading</span><span class="brand-sub">Japan Sourcing</span></span></a>
-      <nav class="nav-links" id="nav-links" aria-label="Primary navigation"><a href="#about">Who we are</a><a href="#services">Services</a><a href="#evidence">Work examples</a><a href="#terms">Terms</a><a class="nav-contact" href="#contact">Submit a brief</a></nav>
+      <nav class="nav-links" id="nav-links" aria-label="Primary navigation"><a href="#about">Who I am</a><a href="#services">Services</a><a href="#evidence">Work examples</a><a href="#terms">Terms</a><a class="nav-contact" href="#contact">Submit a brief</a></nav>
       <button class="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">☰</button>
     </div>
   </header>
@@ -268,11 +272,17 @@
     <section class="about" id="about">
       <div class="wrap about-grid">
         <div class="about-copy reveal">
-          <p class="kicker">Who we are</p>
-          <h2>Built from an international perspective, based in Japan.</h2>
-          <p class="intro">I’m Lizzy, the founder of Guinea Pig Trading. Having lived in New Zealand, China and several other countries before making Japan my home, I understand how differently buyers, customers and markets can think. <strong>I created this business to connect people and opportunities across borders through careful, practical work.</strong></p>
-          <p class="intro">Guinea Pig Trading is the founder-led business; Guinea Pig Japan Sourcing is its specialist service for overseas retail buyers. Each brief is assessed around the buyer’s market, budget and priorities rather than a fixed catalogue.</p>
+          <p class="kicker">Who I am</p>
+          <h2>Hello, I’m Lizzy—an international founder based in Japan.</h2>
+          <p class="intro">Before making Japan my home, I lived in New Zealand, China and several other countries. Those experiences taught me that products do not move between markets on enthusiasm alone: buyers need clear information, reliable communication and someone who understands the context on both sides.</p>
+          <p class="intro"><strong>I founded Guinea Pig Trading to connect people and opportunities across borders through careful, practical work.</strong> Through Guinea Pig Japan Sourcing, I help overseas retail buyers research distinctive Japanese products, understand their options and make informed purchasing decisions.</p>
           <div class="founder-signoff"><span><strong>Lizzy</strong>Founder · Guinea Pig Japan Sourcing</span></div>
+          <dl class="founder-facts" aria-label="Founder profile">
+            <div><dt>Based in</dt><dd>Japan</dd></div>
+            <div><dt>Perspective</dt><dd>New Zealand · China · International</dd></div>
+            <div><dt>Focus</dt><dd>Cross-border retail sourcing</dd></div>
+            <div><dt>Working style</dt><dd>Direct · Practical · Documented</dd></div>
+          </dl>
           <div class="network-note"><strong>A broad partner network:</strong> We work across a wide network of independent suppliers, wholesalers, retailers and specialist sourcing channels in Japan. The most suitable route is assessed for each brief; relationships do not imply official brand authorization, exclusivity or guaranteed availability.</div>
         </div>
         <div class="credentials reveal">
