@@ -120,7 +120,7 @@ def footer(c, page, total):
     c.line(15 * mm, 14 * mm, w - 15 * mm, 14 * mm)
     c.setFillColor(MUTED)
     c.setFont("Helvetica", 6.8)
-    c.drawString(15 * mm, 9.5 * mm, "GUINEA PIG TRADING  •  JAPAN SOURCING SHORTLIST")
+    c.drawString(15 * mm, 9.5 * mm, "SELECT GP CODES  •  EMAIL XIAOYUELIU111@GMAIL.COM  •  APPROVE THE QUOTE BEFORE PURCHASE")
     c.drawRightString(w - 15 * mm, 9.5 * mm, f"{page} / {total}")
 
 
@@ -142,23 +142,29 @@ def cover(c, title, subtitle, count, groups, note):
     c.setFont("Helvetica-Bold", 15)
     c.drawString(18 * mm, y - 3 * mm, subtitle)
     c.setFillColor(WHITE)
-    c.roundRect(18 * mm, 55 * mm, w - 36 * mm, 77 * mm, 5 * mm, fill=1, stroke=0)
+    c.roundRect(18 * mm, 43 * mm, w - 36 * mm, 96 * mm, 5 * mm, fill=1, stroke=0)
     c.setFillColor(INK)
     c.setFont("Helvetica-Bold", 25)
-    c.drawString(27 * mm, 111 * mm, f"{count} real products")
+    c.drawString(27 * mm, 119 * mm, f"{count} real products")
     c.setFillColor(MUTED)
     c.setFont("Helvetica", 10)
-    c.drawString(27 * mm, 99 * mm, "Every item has its own photo, product code and source link.")
+    c.drawString(27 * mm, 107 * mm, "Every item has its own photo, product code and source link.")
     c.setFont("Helvetica-Bold", 8)
     c.setFillColor(RED)
-    c.drawString(27 * mm, 86 * mm, "SORTED BY KIND")
+    c.drawString(27 * mm, 94 * mm, "SORTED BY KIND")
     c.setFillColor(INK)
     c.setFont("Helvetica", 9)
-    c.drawString(27 * mm, 77 * mm, "  •  ".join(groups))
+    c.drawString(27 * mm, 85 * mm, "  •  ".join(groups))
+    c.setFillColor(RED)
+    c.setFont("Helvetica-Bold", 8)
+    c.drawString(27 * mm, 72 * mm, "HOW TO REQUEST A CURRENT QUOTE")
+    c.setFillColor(INK)
+    c.setFont("Helvetica-Bold", 9)
+    c.drawString(27 * mm, 63 * mm, "1  Pick GP codes     2  Send quantity + destination     3  Review the written total")
     c.setFillColor(MUTED)
     c.setFont("Helvetica", 7.4)
-    text = c.beginText(27 * mm, 66 * mm)
-    text.setLeading(10)
+    text = c.beginText(27 * mm, 53 * mm)
+    text.setLeading(8)
     for line in note:
         text.textLine(line)
     c.drawText(text)
@@ -191,7 +197,15 @@ def build_catalogue(filename, title, subtitle, prefix, items, source_name, sourc
         c.rect(0, 0, *A4, fill=1, stroke=0)
         c.setFillColor(INK)
         c.setFont("Helvetica-Bold", 14)
-        c.drawString(15 * mm, A4[1] - 13 * mm, subtitle)
+        page_categories = []
+        for product in items[start:start + 4]:
+            if product[0] not in page_categories:
+                page_categories.append(product[0])
+        page_label = " / ".join(page_categories)
+        c.drawString(15 * mm, A4[1] - 13 * mm, page_label)
+        c.setFillColor(MUTED)
+        c.setFont("Helvetica", 7.3)
+        c.drawRightString(A4[0] - 15 * mm, A4[1] - 13 * mm, "Pick the GP codes you want quoted")
         for pos, item in enumerate(items[start:start + 4]):
             category, name, price, *rest = item
             if len(rest) == 2:
