@@ -4,38 +4,21 @@ from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.colors import HexColor, white
 from reportlab.lib.utils import ImageReader
 from PIL import Image
+from build_stationery_catalogue import PRODUCTS
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output/pdf/customer-stationery-lookbook.pdf"
-ASSETS = ROOT / "assets/catalog"
+ASSETS = ROOT / "assets/catalog/retail"
 W, H = landscape(A4)
-CREAM = HexColor("#f7f1e6")
-INK = HexColor("#152a31")
-CORAL = HexColor("#df6a55")
-MINT = HexColor("#8ab7aa")
-SUN = HexColor("#e8b95c")
-MUTED = HexColor("#68777a")
+CREAM = HexColor("#f7f1e7")
+INK = HexColor("#142b33")
+CORAL = HexColor("#df6755")
+MINT = HexColor("#83aea2")
+SUN = HexColor("#e9b955")
+MUTED = HexColor("#667579")
 
-FEATURES = [
-    ("Color that feels easy", "Zebra Mildliner", "zebra-mildliner.jpg", CORAL,
-     "Soft colors, simple sets and an instantly understandable gift. A natural fit for study, journaling and creative displays.",
-     ["Easy color story", "Compact shelf footprint", "Strong repeat-purchase potential"]),
-    ("A small tool with character", "Tombow MONO Graph", "tombow-mono-graph.png", MINT,
-     "A familiar pencil made more interesting through useful Japanese design details and a recognizable MONO look.",
-     ["Useful everyday item", "Good demonstration product", "Multiple model and color enquiries"]),
-    ("Paper people remember", "MD Notebook", "md-notebook.webp", SUN,
-     "Quiet design, tactile paper and a calm presentation. It works as a premium notebook without feeling formal.",
-     ["Minimal shelf presence", "Paper-focused story", "Multiple sizes and page formats"]),
-    ("Bright, practical, collectable", "Delfonics Rollbahn", "delfonics-rollbahn.jpg", CORAL,
-     "A bold cover, strong ring binding and everyday usefulness make Rollbahn easy to merchandise by size and color.",
-     ["Recognizable Japanese design", "Color-led display", "Gift and personal-use appeal"]),
-    ("A little fun for every page", "PLUS Deco Rush", "plus-deco-rush.jpg", MINT,
-     "A compact decoration tool for planners, cards and notebooks. Motif-led assortments invite customers to choose more than one.",
-     ["Impulse-friendly format", "Seasonal motif opportunities", "Easy add-on purchase"]),
-    ("Desk storage that transforms", "Kokuyo NeoCritz", "kokuyo-neocritz.webp", SUN,
-     "A pencil case that becomes a standing holder. The transformation is simple, useful and easy to show in store.",
-     ["Clear product demonstration", "Useful for school and work", "Color and size options"]),
-]
+FEATURE_CODES = ["GP-001", "GP-003", "GP-004", "GP-009", "GP-010", "GP-012", "GP-015", "GP-017", "GP-019", "GP-023"]
+FEATURES = [next(p for p in PRODUCTS if p["code"] == code) for code in FEATURE_CODES]
 
 
 def fit_image(c, filename, x, y, w, h):
@@ -47,12 +30,11 @@ def fit_image(c, filename, x, y, w, h):
     c.drawImage(ImageReader(path), x + (w - dw) / 2, y + (h - dh) / 2, dw, dh, mask="auto")
 
 
-def wrap(c, text, x, y, max_width, leading, font="Helvetica", size=11, color=MUTED):
-    words = text.split()
-    lines, line = [], ""
+def wrap(c, text, x, y, width, font, size, leading, color):
+    words, lines, line = text.split(), [], ""
     for word in words:
         candidate = (line + " " + word).strip()
-        if c.stringWidth(candidate, font, size) <= max_width:
+        if c.stringWidth(candidate, font, size) <= width:
             line = candidate
         else:
             lines.append(line)
@@ -69,33 +51,33 @@ def wrap(c, text, x, y, max_width, leading, font="Helvetica", size=11, color=MUT
 
 def footer(c, page):
     c.setFillColor(MUTED)
-    c.setFont("Helvetica", 7.5)
-    c.drawString(36, 20, "GUINEA PIG TRADING  /  JAPAN SOURCING")
-    c.drawRightString(W - 36, 20, f"LOOKBOOK  /  {page}")
+    c.setFont("Helvetica", 7)
+    c.drawString(34, 18, "GUINEA PIG TRADING  /  CUSTOMER LOOKBOOK")
+    c.drawRightString(W - 34, 18, f"{page}  /  PRICE CHECKED 11 OCTOBER 2026")
 
 
 def cover(c):
     c.setFillColor(INK)
     c.rect(0, 0, W, H, fill=1, stroke=0)
     c.setFillColor(CORAL)
-    c.circle(W - 95, H - 90, 150, fill=1, stroke=0)
+    c.circle(W - 90, H - 75, 160, fill=1, stroke=0)
     c.setFillColor(SUN)
-    c.circle(W - 270, 75, 95, fill=1, stroke=0)
+    c.circle(W - 270, 70, 100, fill=1, stroke=0)
     c.setFillColor(white)
     c.setFont("Helvetica-Bold", 14)
-    c.drawString(54, H - 64, "GUINEA PIG TRADING")
-    c.setFont("Helvetica-Bold", 48)
-    c.drawString(54, H - 160, "Small things.")
-    c.drawString(54, H - 214, "Good feeling.")
+    c.drawString(54, H - 60, "GUINEA PIG TRADING")
+    c.setFont("Helvetica-Bold", 45)
+    c.drawString(54, H - 150, "Useful.")
+    c.drawString(54, H - 202, "Giftable.")
+    c.drawString(54, H - 254, "Easy to identify.")
     c.setFillColor(CREAM)
-    c.setFont("Helvetica", 17)
-    c.drawString(58, H - 258, "Japanese stationery for memorable retail displays.")
+    c.setFont("Helvetica", 14)
+    c.drawString(58, H - 292, "A focused Japanese stationery story for real customers.")
     c.setFillColor(white)
-    c.roundRect(W - 350, 125, 255, 255, 8, fill=1, stroke=0)
-    fit_image(c, "delfonics-rollbahn.jpg", W - 325, 150, 205, 205)
-    c.setFillColor(white)
-    c.setFont("Helvetica-Bold", 11)
-    c.drawString(58, 62, "CUSTOMER LOOKBOOK  /  2026")
+    c.roundRect(W - 345, 120, 260, 285, 8, fill=1, stroke=0)
+    fit_image(c, FEATURES[0]["asset"], W - 320, 145, 210, 235)
+    c.setFont("Helvetica-Bold", 10)
+    c.drawString(58, 54, "10 FEATURED PRODUCTS  /  PUBLIC PRICES  /  OFFICIAL SHOP LINKS")
     c.showPage()
 
 
@@ -103,51 +85,50 @@ def intro(c):
     c.setFillColor(CREAM)
     c.rect(0, 0, W, H, fill=1, stroke=0)
     c.setFillColor(INK)
-    c.setFont("Helvetica-Bold", 35)
-    c.drawString(50, H - 90, "A shelf customers want to explore.")
-    wrap(c, "The strongest stationery displays mix useful products with color, texture and a small moment of surprise. This lookbook shows six product families that can work together without making the shelf feel crowded.", 52, H - 130, 470, 18, size=12, color=MUTED)
-    cards = [("COLOR", "Give customers an easy first choice.", CORAL), ("USE", "Make every product simple to understand.", MINT), ("DISCOVERY", "Leave room for one delightful detail.", SUN)]
-    for i, (label, body, color) in enumerate(cards):
-        x = 52 + i * 250
+    c.setFont("Helvetica-Bold", 34)
+    c.drawString(50, H - 85, "Why this shortlist is easier to sell")
+    points = [
+        ("CLEAR", "Every item is visibly different."),
+        ("REAL", "Names, photos and prices come from the official shop."),
+        ("USEFUL", "Each product has a simple reason to exist on the shelf."),
+        ("ACTIONABLE", "Customers can identify an exact GP code."),
+    ]
+    for i, (head, body) in enumerate(points):
+        x = 52 + (i % 2) * 380
+        y = 325 - (i // 2) * 150
         c.setFillColor(white)
-        c.roundRect(x, 105, 220, 190, 8, fill=1, stroke=0)
-        c.setFillColor(color)
-        c.circle(x + 36, 250, 18, fill=1, stroke=0)
-        c.setFillColor(INK)
+        c.roundRect(x, y, 340, 120, 7, fill=1, stroke=0)
+        c.setFillColor([CORAL, MINT, SUN, CORAL][i])
         c.setFont("Helvetica-Bold", 10)
-        c.drawString(x + 22, 210, label)
-        wrap(c, body, x + 22, 180, 175, 18, font="Helvetica-Bold", size=14, color=INK)
+        c.drawString(x + 18, y + 86, head)
+        wrap(c, body, x + 18, y + 58, 290, "Helvetica-Bold", 14, 18, INK)
     footer(c, 2)
     c.showPage()
 
 
-def feature_page(c, feature, page):
-    headline, name, image, accent, body, bullets = feature
+def feature_page(c, pair, page):
     c.setFillColor(CREAM)
     c.rect(0, 0, W, H, fill=1, stroke=0)
-    c.setFillColor(accent)
-    c.rect(0, 0, 24, H, fill=1, stroke=0)
-    c.setFillColor(white)
-    c.roundRect(50, 72, 350, H - 112, 10, fill=1, stroke=0)
-    fit_image(c, image, 78, 102, 294, H - 172)
-    c.setFillColor(accent)
-    c.setFont("Helvetica-Bold", 10)
-    c.drawString(440, H - 82, name.upper())
-    c.setFillColor(INK)
-    c.setFont("Helvetica-Bold", 27)
-    c.drawString(438, H - 127, headline)
-    y = wrap(c, body, 440, H - 170, 335, 18, size=11.5, color=MUTED)
-    y -= 16
-    for bullet in bullets:
-        c.setFillColor(accent)
-        c.circle(448, y + 3, 4, fill=1, stroke=0)
+    accents = [CORAL, MINT]
+    for i, item in enumerate(pair):
+        x = 36 + i * 405
+        c.setFillColor(white)
+        c.roundRect(x, 58, 370, H - 90, 8, fill=1, stroke=0)
+        c.setFillColor(accents[i])
+        c.rect(x, H - 62, 370, 15, fill=1, stroke=0)
+        fit_image(c, item["asset"], x + 24, H - 300, 322, 215)
+        c.setFillColor(accents[i])
+        c.setFont("Helvetica-Bold", 8)
+        c.drawString(x + 24, 260, f'{item["code"]}  /  SHOP {item["shop_code"]}')
+        wrap(c, item["name"], x + 24, 240, 320, "Helvetica-Bold", 14, 17, INK)
         c.setFillColor(INK)
-        c.setFont("Helvetica-Bold", 11)
-        c.drawString(462, y, bullet)
-        y -= 30
-    c.setFillColor(INK)
-    c.setFont("Helvetica", 8)
-    c.drawString(440, 78, "Ask for current colors, formats, quantities and sourcing availability.")
+        c.setFont("Helvetica-Bold", 13)
+        c.drawString(x + 24, 187, item["price"])
+        wrap(c, item["benefit"], x + 24, 160, 315, "Helvetica", 10, 14, MUTED)
+        c.setFillColor(INK)
+        c.setFont("Helvetica-Bold", 7)
+        c.drawString(x + 24, 78, "CLICK THIS CARD FOR THE OFFICIAL PRODUCT PAGE")
+        c.linkURL(item["url"], (x, 58, x + 370, H - 32), relative=0)
     footer(c, page)
     c.showPage()
 
@@ -158,35 +139,36 @@ def closing(c):
     c.setFillColor(CORAL)
     c.rect(0, H - 16, W, 16, fill=1, stroke=0)
     c.setFillColor(white)
-    c.setFont("Helvetica-Bold", 36)
-    c.drawString(54, H - 110, "Build a stationery mix")
-    c.drawString(54, H - 153, "that feels like your shop.")
+    c.setFont("Helvetica-Bold", 37)
+    c.drawString(54, H - 115, "Start with five products,")
+    c.drawString(54, H - 160, "not fifty guesses.")
     c.setFillColor(CREAM)
     c.setFont("Helvetica", 13)
-    c.drawString(58, H - 193, "Choose references from the 200-item catalogue and request a current sourcing check.")
-    steps = ["1. Share the GP item codes", "2. Add quantity and budget", "3. Confirm current options"]
+    c.drawString(58, H - 200, "Send the GP codes, expected quantity, budget and destination market.")
+    steps = ["1. Choose codes", "2. Confirm current stock", "3. Receive a quotation"]
     for i, step in enumerate(steps):
         x = 58 + i * 245
         c.setFillColor([CORAL, MINT, SUN][i])
-        c.roundRect(x, 160, 215, 90, 7, fill=1, stroke=0)
+        c.roundRect(x, 155, 215, 95, 7, fill=1, stroke=0)
         c.setFillColor(INK)
-        c.setFont("Helvetica-Bold", 12)
-        c.drawString(x + 16, 200, step)
+        c.setFont("Helvetica-Bold", 13)
+        c.drawString(x + 18, 196, step)
     c.setFillColor(white)
     c.setFont("Helvetica", 8)
-    c.drawString(58, 70, "Photographs are from official maker or official shop pages. Availability and terms are checked before quotation.")
+    c.drawString(58, 66, "Displayed prices are public retail references. Final availability, shipping, fees and commercial terms require a current check.")
     c.showPage()
 
 
 def main():
-    OUT.parent.mkdir(parents=True, exist_ok=True)
     c = canvas.Canvas(str(OUT), pagesize=landscape(A4), pageCompression=1)
     c.setTitle("Customer Stationery Lookbook - Guinea Pig Trading")
     c.setAuthor("Guinea Pig Trading")
     cover(c)
     intro(c)
-    for page, feature in enumerate(FEATURES, start=3):
-        feature_page(c, feature, page)
+    page = 3
+    for start in range(0, len(FEATURES), 2):
+        feature_page(c, FEATURES[start:start + 2], page)
+        page += 1
     closing(c)
     c.save()
     print(OUT)

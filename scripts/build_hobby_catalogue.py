@@ -75,7 +75,7 @@ def header(c, title, page):
     c.setFont("Helvetica-Bold", 15)
     c.drawString(M, H - 29, "GUINEA PIG TRADING")
     c.setFont("Helvetica", 7)
-    c.drawRightString(W - M, H - 26, "JAPANESE HOBBY ITEMS  /  SOURCING CATALOGUE")
+    c.drawRightString(W - M, H - 26, "JAPANESE HOBBY ITEMS  /  DISCOVERY GUIDE")
     c.setFillColor(RED)
     c.rect(0, H - 51, W, 5, fill=1, stroke=0)
     c.setFillColor(INK)
@@ -138,7 +138,7 @@ def cover(c):
     c.drawString(55, H - 155, "JAPANESE")
     c.drawString(55, H - 208, "HOBBY ITEMS")
     c.setFillColor(RED)
-    c.drawString(55, H - 261, "CATALOGUE")
+    c.drawString(55, H - 261, "DISCOVERY GUIDE")
     c.setFillColor(white)
     c.setFont("Helvetica-Bold", 22)
     c.drawString(59, H - 310, "72 sourcing categories")
@@ -152,7 +152,7 @@ def cover(c):
     c.circle(W - 220, H / 2 - 34, 14, fill=0, stroke=1)
     c.circle(W - 140, H / 2 - 34, 14, fill=0, stroke=1)
     c.setFont("Helvetica", 8)
-    c.drawString(59, 48, "Category enquiry catalogue based on official Tamiya product categories. Exact products are checked before quotation.")
+    c.drawString(59, 48, "Category guide based on official Tamiya product categories. It is not a stock or price catalogue.")
     c.showPage()
 
 
@@ -231,7 +231,7 @@ def notes(c, page):
 def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
     c = canvas.Canvas(str(OUT), pagesize=landscape(A4), pageCompression=1)
-    c.setTitle("Japanese Hobby Items Catalogue - Guinea Pig Trading")
+    c.setTitle("Japanese Hobby Items Discovery Guide - Guinea Pig Trading")
     c.setAuthor("Guinea Pig Trading")
     cover(c)
     page = 2

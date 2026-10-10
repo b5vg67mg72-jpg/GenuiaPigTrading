@@ -7,106 +7,55 @@ from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output/pdf/japanese-stationery-catalogue.pdf"
-ASSETS = ROOT / "assets/catalog"
+ASSETS = ROOT / "assets/catalog/retail"
 W, H = landscape(A4)
 M = 30
-RED = HexColor("#d71920")
-NAVY = HexColor("#16324a")
+NAVY = HexColor("#152f45")
+RED = HexColor("#d8232a")
 INK = HexColor("#20262b")
-MUTED = HexColor("#66717a")
-LINE = HexColor("#d8dde1")
+MUTED = HexColor("#68757b")
+LINE = HexColor("#d7dde0")
 PAPER = HexColor("#f4f4f1")
-
-SOURCES = {
-    "Zebra": "https://www.zebra.co.jp/pro/mildliner/",
-    "Tombow": "https://www.tombow.com/en/products/mono_graph/",
-    "MD PAPER": "https://md.midori-japan.co.jp/en/products/mdnote/",
-    "Delfonics": "https://shop.delfonics.com/c/brands/original/cat701",
-    "PLUS": "https://bungu.plus.co.jp/product/deco/decoration_tape/decorush/",
-    "Kokuyo": "https://www.kokuyo.com/en/stationery/series/neocritz/",
-}
+GREEN = HexColor("#497a62")
 
 
-def build_products():
-    rows = []
-
-    def add(kind, name, option, brand, image):
-        rows.append({"kind": kind, "name": name, "option": option, "brand": brand, "image": image})
-
-    palettes = ["Fluorescent", "Cool", "Warm", "Friendly", "Natural", "Neutral", "Gentle", "Refresh"]
-    formats = ["5-color set", "Single marker", "Brush set", "Assorted pack", "Gift set"]
-    for palette in palettes:
-        for product_format in formats:
-            add("Highlighters & markers", f"Mildliner {product_format}", palette, "Zebra", "zebra-mildliner.jpg")
-
-    models = ["Standard", "Fine", "Lite", "Grip", "Clear", "Pastel"]
-    colors = ["Black", "Blue", "White", "Pink", "Assorted color"]
-    for model in models:
-        for color in colors:
-            add("Mechanical pencils", f"MONO graph {model}", color, "Tombow", "tombow-mono-graph.png")
-
-    md_sizes = ["A5", "A6", "B6 Slim", "A5 Cotton", "A5 Light"]
-    md_formats = ["Blank", "Ruled", "Grid", "Dot grid", "Journal", "3-book pack"]
-    for size in md_sizes:
-        for paper_format in md_formats:
-            add("Notebooks & memo", f"MD Notebook {size}", paper_format, "MD PAPER", "md-notebook.webp")
-
-    rollbahn_sizes = ["Mini", "M", "L", "A5", "Slim", "Landscape"]
-    covers = ["Orange", "Classic color", "Pastel color", "Assorted cover", "Limited cover"]
-    for size in rollbahn_sizes:
-        for cover in covers:
-            add("Notebooks & memo", f"Rollbahn Pocket Memo {size}", cover, "Delfonics", "delfonics-rollbahn.jpg")
-
-    motifs = [
-        "Planner", "Animal", "Flower", "Food", "Seasonal", "Cafe", "Travel", "Weather", "Study", "Work",
-        "Home", "Birthday", "Holiday", "Music", "Books", "Stars", "Nature", "Cats", "Dogs", "Birds",
-        "Fruit", "Sweets", "Bread", "Drinks", "Cooking", "Shopping", "Health", "Exercise", "School", "Family",
-        "Numbers", "Letters", "Checks", "Lines", "Frames", "Icons", "Messages", "Japanese", "Mini pattern", "Assorted",
-    ]
-    for motif in motifs:
-        add("Decoration tape", f"Deco Rush {motif}", "Motif series", "PLUS", "plus-deco-rush.jpg")
-
-    for style in ["Standard", "Flat", "Mini", "Wide", "Standing"]:
-        for color in ["Black", "Blue", "Pink", "Assorted color"]:
-            add("Pencil cases", f"NeoCritz {style}", color, "Kokuyo", "kokuyo-neocritz.webp")
-
-    extras = [
-        ("Rollbahn correction tape", "Blue", "delfonics-correction-tape.jpg"),
-        ("Rollbahn correction tape", "Assorted color", "delfonics-correction-tape.jpg"),
-        ("Rollbahn correction tape", "Refill enquiry", "delfonics-correction-tape.jpg"),
-        ("Rollbahn zip organizer", "Black - compact", "delfonics-zip-organizer.jpg"),
-        ("Rollbahn zip organizer", "Black - standard", "delfonics-zip-organizer.jpg"),
-        ("Rollbahn zip organizer", "Black - large", "delfonics-zip-organizer.jpg"),
-        ("LIFE Noble Note", "Ruled", "delfonics-life-noble.jpg"),
-        ("LIFE Noble Note", "Grid", "delfonics-life-noble.jpg"),
-        ("Artist-cover ring memo", "Cover option A", "delfonics-ring-memo.jpg"),
-        ("Artist-cover ring memo", "Cover option B", "delfonics-ring-memo.jpg"),
-    ]
-    for name, option, image in extras:
-        add("Desk accessories", name, option, "Delfonics", image)
-
-    assert len(rows) == 200
-    for i, row in enumerate(rows, start=1):
-        row["code"] = f"GP-{i:03d}"
-    return rows
+def p(code, category, name, price, asset, shop_code, benefit):
+    return {
+        "code": code, "category": category, "name": name, "price": price,
+        "asset": asset, "shop_code": shop_code, "benefit": benefit,
+        "url": f"https://shop.delfonics.com/c/brands/original/cat701/{shop_code}",
+    }
 
 
-PRODUCTS = build_products()
+PRODUCTS = [
+    p("GP-001", "Notebooks & storage", "Rollbahn Extra #1 Double Pages L", "JPY 1,650", "rb-extra-1.png", "501432", "Extra page capacity for long projects."),
+    p("GP-002", "Notebooks & storage", "Rollbahn Extra #2 50 Pockets L", "JPY 1,430", "rb-extra-2.png", "501433", "Pocket-heavy format for collected material."),
+    p("GP-003", "Notebooks & storage", "Rollbahn Extra #4 Water-Repellent L", "JPY 2,200", "rb-extra-4.png", "501435", "A practical feature for travel and field use."),
+    p("GP-004", "Notebooks & storage", "Rollbahn Extra #7 Fragrance L", "JPY 2,640", "rb-extra-7.png", "501438", "A distinctive sensory product for gifting."),
+    p("GP-005", "Notebooks & storage", "Rollbahn Extra #8 Paper Bundle L", "JPY 1,100", "rb-paper-l.png", "501439", "A compact loose-paper format in L size."),
+    p("GP-006", "Notebooks & storage", "Rollbahn Extra #8 Paper Bundle A5", "JPY 1,430", "rb-paper-a5.png", "501440", "A familiar A5 size for broad customer appeal."),
+    p("GP-007", "Notebooks & storage", "Rollbahn Extra #8 Paper Bundle B5", "JPY 1,760", "rb-paper-b5.png", "501441", "More writing space for work and study."),
+    p("GP-008", "Notebooks & storage", "Rollbahn Extra #8 Paper Bundle A4", "JPY 2,090", "rb-paper-a4.png", "501442", "Large-format paper for planning and display."),
+    p("GP-009", "Notebooks & storage", "Rollbahn Extra #9 Storage Box 505", "JPY 1,980", "rb-box-505.png", "501443", "A branded storage add-on for desk displays."),
+    p("GP-010", "Notebooks & storage", "American Sweets Rollbahn Pocket Memo Mini", "JPY 605", "rb-american-mini.png", "501427", "Low-price illustrated gift and impulse item."),
+    p("GP-011", "Notebooks & storage", "American Sweets Rollbahn Pocket Memo M", "JPY 715", "rb-american-m.png", "501428", "A practical gift size with a playful cover."),
+    p("GP-012", "Accessories", "Rollbahn Bookmark", "JPY 418", "rb-bookmark.png", "501446", "An easy add-on beside notebooks and diaries."),
+    p("GP-013", "Accessories", "Rollbahn Seal Re:Limited", "JPY 385", "rb-seal-relimited.png", "601630", "Direct-store limited customization detail."),
+    p("GP-014", "Accessories", "Rollbahn Seal", "JPY 385", "rb-seal.png", "501449", "Simple notebook customization at entry price."),
+    p("GP-015", "Accessories", "Rollbahn Seal gyunyuya", "JPY 440", "rb-seal-gyunyuya.png", "501450", "Illustrated collaboration with collectable appeal."),
+    p("GP-016", "Accessories", "Rollbahn Custom Charm Re:Limited", "JPY 660", "rb-charm-relimited.png", "601631", "Limited personalization for gift-led displays."),
+    p("GP-017", "Accessories", "Rollbahn Custom Charm", "JPY 660", "rb-charm.png", "501451", "A visible add-on that encourages bundling."),
+    p("GP-018", "Accessories", "Rollbahn Custom Charm gyunyuya", "JPY 715", "rb-charm-gyunyuya.png", "501452", "Illustrated charm for playful collections."),
+    p("GP-019", "Diary & planning", "Rollbahn Bookmark Calendar 2027", "JPY 770", "rb-bookmark-calendar.png", "170117", "Calendar function in a compact bookmark format."),
+    p("GP-020", "Diary & planning", "Pocket Memo L Protector Calendar 2027", "JPY 495", "rb-protector-calendar.png", "170116", "Protective cover and calendar in one accessory."),
+    p("GP-021", "Diary & planning", "Flexible Diary Monthly Refill L", "JPY 880", "rb-refill-l.png", "170114", "A refill purchase for existing flexible users."),
+    p("GP-022", "Diary & planning", "Flexible Diary Monthly Refill A5", "JPY 990", "rb-refill-a5.png", "170115", "A5 monthly planning refill for desk use."),
+    p("GP-023", "Diary & planning", "Direct-Store Rollbahn Diary M 2027", "JPY 1,540", "rb-diary-m.png", "601606", "A limited diary size suited to seasonal display."),
+]
 
-FAMILY_IMAGES = {
-    "Highlighters & markers": ["zebra-mildliner.jpg"],
-    "Mechanical pencils": ["tombow-mono-graph.png"],
-    "Notebooks & memo": ["md-notebook.webp", "delfonics-rollbahn.jpg"],
-    "Decoration tape": ["plus-deco-rush.jpg"],
-    "Pencil cases": ["kokuyo-neocritz.webp"],
-    "Desk accessories": [
-        "delfonics-correction-tape.jpg", "delfonics-zip-organizer.jpg",
-        "delfonics-life-noble.jpg", "delfonics-ring-memo.jpg",
-    ],
-}
 
-
-def fit_image(c, path, x, y, w, h):
+def fit_image(c, filename, x, y, w, h):
+    path = ASSETS / filename
     with Image.open(path) as im:
         iw, ih = im.size
     scale = min(w / iw, h / ih)
@@ -114,42 +63,65 @@ def fit_image(c, path, x, y, w, h):
     c.drawImage(ImageReader(path), x + (w - dw) / 2, y + (h - dh) / 2, dw, dh, mask="auto")
 
 
-def top_bar(c, title, page_no):
+def wrap(c, text, x, y, width, font, size, leading, color):
+    words, lines, line = text.split(), [], ""
+    for word in words:
+        candidate = (line + " " + word).strip()
+        if c.stringWidth(candidate, font, size) <= width:
+            line = candidate
+        else:
+            lines.append(line)
+            line = word
+    if line:
+        lines.append(line)
+    c.setFillColor(color)
+    c.setFont(font, size)
+    for current in lines:
+        c.drawString(x, y, current)
+        y -= leading
+    return y
+
+
+def header(c, title, page):
     c.setFillColor(NAVY)
-    c.rect(0, H - 46, W, 46, fill=1, stroke=0)
+    c.rect(0, H - 43, W, 43, fill=1, stroke=0)
     c.setFillColor(white)
-    c.setFont("Helvetica-Bold", 15)
-    c.drawString(M, H - 29, "GUINEA PIG TRADING")
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(M, H - 27, "GUINEA PIG TRADING")
     c.setFont("Helvetica", 7)
-    c.drawRightString(W - M, H - 26, "JAPANESE STATIONERY CATALOGUE  /  200 ITEMS")
+    c.drawRightString(W - M, H - 25, "BUYER-READY JAPANESE STATIONERY  /  23 PRODUCTS")
     c.setFillColor(RED)
-    c.rect(0, H - 51, W, 5, fill=1, stroke=0)
+    c.rect(0, H - 48, W, 5, fill=1, stroke=0)
     c.setFillColor(INK)
-    c.setFont("Helvetica-Bold", 20)
-    c.drawString(M, H - 81, title.upper())
-    c.setFont("Helvetica", 8)
+    c.setFont("Helvetica-Bold", 19)
+    c.drawString(M, H - 77, title.upper())
     c.setFillColor(MUTED)
-    c.drawRightString(W - M, 18, f"PAGE {page_no}  |  GUINEA PIG TRADING")
+    c.setFont("Helvetica", 7.5)
+    c.drawRightString(W - M, 16, f"PAGE {page}  |  PRICE CHECK: 11 OCTOBER 2026")
 
 
-def card(c, product, x, y, w, h):
+def card(c, item, x, y, w, h):
     c.setFillColor(white)
     c.setStrokeColor(LINE)
-    c.roundRect(x, y, w, h, 3, fill=1, stroke=1)
-    photo_h = h - 57
+    c.roundRect(x, y, w, h, 4, fill=1, stroke=1)
+    image_h = h - 92
     c.setFillColor(PAPER)
-    c.rect(x + 1, y + h - photo_h - 1, w - 2, photo_h, fill=1, stroke=0)
-    fit_image(c, ASSETS / product["image"], x + 8, y + h - photo_h + 6, w - 16, photo_h - 13)
+    c.rect(x + 1, y + h - image_h - 1, w - 2, image_h, fill=1, stroke=0)
+    fit_image(c, item["asset"], x + 7, y + h - image_h + 5, w - 14, image_h - 10)
     c.setFillColor(RED)
-    c.setFont("Helvetica-Bold", 7.5)
-    c.drawString(x + 8, y + 43, product["code"])
-    c.setFillColor(INK)
-    c.setFont("Helvetica-Bold", 9)
-    c.drawString(x + 8, y + 29, product["name"][:34])
+    c.setFont("Helvetica-Bold", 7)
+    c.drawString(x + 8, y + 79, f'{item["code"]}  /  SHOP {item["shop_code"]}')
+    wrap(c, item["name"], x + 8, y + 64, w - 16, "Helvetica-Bold", 8.4, 10, INK)
+    c.setFillColor(GREEN)
+    c.setFont("Helvetica-Bold", 8.5)
+    c.drawString(x + 8, y + 32, item["price"])
     c.setFillColor(MUTED)
-    c.setFont("Helvetica", 7.2)
-    c.drawString(x + 8, y + 16, f'{product["option"][:20]}  /  {product["brand"]}')
-    c.linkURL(SOURCES[product["brand"]], (x, y, x + w, y + h), relative=0)
+    c.setFont("Helvetica", 6.7)
+    c.drawString(x + 8, y + 20, "No out-of-stock notice when checked")
+    c.setFillColor(NAVY)
+    c.setFont("Helvetica-Bold", 6.8)
+    c.drawString(x + 8, y + 8, "OPEN OFFICIAL PRODUCT PAGE")
+    c.linkURL(item["url"], (x, y, x + w, y + h), relative=0)
 
 
 def cover(c):
@@ -158,178 +130,123 @@ def cover(c):
     c.setFillColor(RED)
     c.rect(0, H - 16, W, 16, fill=1, stroke=0)
     c.setFillColor(white)
-    c.setFont("Helvetica-Bold", 15)
-    c.drawString(54, H - 65, "GUINEA PIG TRADING")
-    c.setFont("Helvetica-Bold", 48)
-    c.drawString(54, H - 150, "JAPANESE")
-    c.drawString(54, H - 202, "STATIONERY")
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(54, H - 62, "GUINEA PIG TRADING")
+    c.setFont("Helvetica-Bold", 43)
+    c.drawString(54, H - 145, "23 products")
+    c.drawString(54, H - 195, "worth showing.")
     c.setFillColor(RED)
-    c.drawString(54, H - 254, "CATALOGUE")
+    c.setFont("Helvetica-Bold", 19)
+    c.drawString(58, H - 239, "BUYER-READY STATIONERY SHORTLIST")
     c.setFillColor(white)
-    c.setFont("Helvetica-Bold", 25)
-    c.drawString(58, H - 303, "200 product options")
     c.setFont("Helvetica", 11)
-    c.drawString(58, H - 329, "Sorted by kind  /  Real product photography  /  Official source links")
-    c.setFillColor(RED)
-    c.circle(W - 170, H / 2 + 20, 130, fill=1, stroke=0)
-    c.setStrokeColor(white)
-    c.setLineWidth(7)
-    c.line(W - 255, H / 2 - 35, W - 105, H / 2 + 75)
-    c.line(W - 240, H / 2 - 55, W - 90, H / 2 + 55)
-    c.setFont("Helvetica", 8)
-    c.drawString(58, 47, "Reference catalogue for sourcing enquiries. Exact current variants are confirmed before quotation.")
-    c.showPage()
-
-
-def contents(c):
-    top_bar(c, "Contents", 2)
-    groups = []
-    for product in PRODUCTS:
-        if not groups or groups[-1][0] != product["kind"]:
-            groups.append([product["kind"], product["code"], product["code"]])
-        else:
-            groups[-1][2] = product["code"]
-    y = H - 125
-    for idx, (kind, start, end) in enumerate(groups, start=1):
-        c.setFillColor(PAPER if idx % 2 else white)
-        c.rect(M, y - 28, W - 2 * M, 40, fill=1, stroke=0)
-        c.setFillColor(RED)
-        c.setFont("Helvetica-Bold", 9)
-        c.drawString(M + 14, y - 12, f"{idx:02d}")
-        c.setFillColor(INK)
-        c.setFont("Helvetica-Bold", 13)
-        c.drawString(M + 55, y - 12, kind)
-        c.setFillColor(MUTED)
-        c.setFont("Helvetica", 9)
-        c.drawRightString(W - M - 14, y - 12, f"{start} - {end}")
-        y -= 48
-    c.showPage()
-
-
-def section_opener(c, kind, items, page_no):
-    top_bar(c, kind, page_no)
-    c.setFillColor(INK)
-    c.setFont("Helvetica-Bold", 30)
-    c.drawString(M, H - 145, kind)
-    c.setFillColor(RED)
-    c.setFont("Helvetica-Bold", 18)
-    c.drawString(M, H - 180, f'{items[0]["code"]} - {items[-1]["code"]}')
-    c.setFillColor(MUTED)
-    c.setFont("Helvetica", 11)
-    c.drawString(M, H - 207, f"{len(items)} sorted enquiry options")
-    c.drawString(M, H - 228, "Each real product-family photo appears once.")
-    images = FAMILY_IMAGES[kind]
-    area_x, area_y, area_w, area_h = 365, 78, W - 395, H - 190
-    gap = 10
-    cell_w = (area_w - gap * (len(images) - 1)) / len(images)
-    for i, filename in enumerate(images):
-        x = area_x + i * (cell_w + gap)
-        c.setFillColor(white)
-        c.setStrokeColor(LINE)
-        c.roundRect(x, area_y, cell_w, area_h, 5, fill=1, stroke=1)
-        fit_image(c, ASSETS / filename, x + 10, area_y + 10, cell_w - 20, area_h - 20)
-    c.showPage()
-
-
-def table_page(c, items, page_no):
-    top_bar(c, items[0]["kind"], page_no)
-    c.setFillColor(MUTED)
-    c.setFont("Helvetica", 8)
-    c.drawRightString(W - M, H - 80, f'{items[0]["code"]} - {items[-1]["code"]}')
-    x = M
-    y = H - 110
-    widths = [72, 290, 190, 110]
-    headers = ["GP CODE", "PRODUCT FAMILY", "OPTION", "BRAND"]
-    c.setFillColor(BLUE if False else NAVY)
-    c.rect(x, y - 20, sum(widths), 25, fill=1, stroke=0)
-    pos = x
+    c.drawString(58, H - 270, "Different real photos. Exact public prices. Official links. Clear next steps.")
     c.setFillColor(white)
-    c.setFont("Helvetica-Bold", 8)
-    for label, width in zip(headers, widths):
-        c.drawString(pos + 8, y - 11, label)
-        pos += width
-    y -= 26
-    for index, product in enumerate(items):
-        c.setFillColor(PAPER if index % 2 == 0 else white)
-        c.rect(x, y - 17, sum(widths), 22, fill=1, stroke=0)
-        values = [product["code"], product["name"], product["option"], product["brand"]]
-        pos = x
-        for col, (value, width) in enumerate(zip(values, widths)):
-            c.setFillColor(RED if col == 0 else INK)
-            c.setFont("Helvetica-Bold" if col in (0, 1) else "Helvetica", 8)
-            c.drawString(pos + 8, y - 9, value[:46])
-            pos += width
-        y -= 22
+    c.roundRect(W - 335, 112, 260, 300, 8, fill=1, stroke=0)
+    fit_image(c, "rb-extra-1.png", W - 310, 135, 210, 250)
+    c.setFont("Helvetica", 8)
+    c.drawString(58, 48, "Public prices and availability signals were observed on the official Delfonics shop on 11 October 2026.")
     c.showPage()
 
 
-def sources_page(c, page_no):
-    top_bar(c, "Sources & catalogue notes", page_no)
-    y = H - 118
-    c.setFillColor(INK)
-    c.setFont("Helvetica-Bold", 11)
-    c.drawString(M, y, "Official maker / official shop pages")
-    y -= 25
-    for brand, url in SOURCES.items():
-        c.setFillColor(RED)
-        c.setFont("Helvetica-Bold", 9)
-        c.drawString(M, y, brand)
-        c.setFillColor(NAVY)
-        c.setFont("Helvetica", 8)
-        c.drawString(M + 90, y, url)
-        c.linkURL(url, (M + 88, y - 4, W - M, y + 8), relative=0)
-        y -= 22
-    y -= 8
-    c.setStrokeColor(LINE)
-    c.line(M, y, W - M, y)
-    y -= 28
-    c.setFillColor(INK)
-    c.setFont("Helvetica-Bold", 11)
-    c.drawString(M, y, "Important")
-    notes = [
-        "Product photographs are from the official maker or official shop pages listed above.",
-        "GP-001 to GP-200 are Guinea Pig Trading reference codes, not maker item numbers.",
-        "Some entries are color, size, format or motif enquiries within a real product family.",
-        "Exact models, packaging, availability, wholesale access and prices are checked before quotation.",
+def buying_notes(c):
+    header(c, "How to buy from this catalogue", 2)
+    steps = [
+        ("1", "Choose", "Send the GP codes that fit your shop."),
+        ("2", "Add details", "Tell me quantity, budget and destination."),
+        ("3", "Current check", "I confirm stock, source access and shipping."),
+        ("4", "Quotation", "You receive the current landed-cost estimate."),
     ]
-    y -= 23
-    c.setFont("Helvetica", 9)
-    c.setFillColor(MUTED)
-    for note in notes:
-        c.drawString(M + 12, y, "- " + note)
-        y -= 19
+    for i, (num, title, body) in enumerate(steps):
+        x = 35 + i * 200
+        c.setFillColor(PAPER)
+        c.roundRect(x, 210, 178, 210, 6, fill=1, stroke=0)
+        c.setFillColor(RED)
+        c.circle(x + 32, 380, 18, fill=1, stroke=0)
+        c.setFillColor(white)
+        c.setFont("Helvetica-Bold", 13)
+        c.drawCentredString(x + 32, 375, num)
+        c.setFillColor(INK)
+        c.setFont("Helvetica-Bold", 15)
+        c.drawString(x + 18, 337, title)
+        wrap(c, body, x + 18, 307, 140, "Helvetica", 10, 15, MUTED)
     c.setFillColor(NAVY)
-    c.roundRect(M, 48, W - 2 * M, 64, 3, fill=1, stroke=0)
+    c.roundRect(M, 70, W - 2 * M, 72, 5, fill=1, stroke=0)
     c.setFillColor(white)
-    c.setFont("Helvetica-Bold", 15)
-    c.drawString(M + 18, 87, "Request a sourcing check")
+    c.setFont("Helvetica-Bold", 14)
+    c.drawString(M + 18, 111, "Important: the displayed JPY price is a public retail reference, not your final quotation.")
     c.setFont("Helvetica", 9)
-    c.drawString(M + 18, 69, "Send the GP code, preferred option, quantity and destination market through the website contact form.")
+    c.drawString(M + 18, 88, "Wholesale access, tax treatment, domestic freight, international shipping and service fees are checked separately.")
+    c.showPage()
+
+
+def product_page(c, title, items, page):
+    header(c, title, page)
+    cols, rows, gap = 3, 2, 11
+    top, bottom = H - 92, 34
+    cw = (W - 2 * M - gap * (cols - 1)) / cols
+    ch = (top - bottom - gap) / rows
+    for i, item in enumerate(items):
+        col, row = i % cols, i // cols
+        x = M + col * (cw + gap)
+        y = top - (row + 1) * ch - row * gap
+        card(c, item, x, y, cw, ch)
+    c.showPage()
+
+
+def notes(c, page):
+    header(c, "Source, status & next step", page)
+    c.setFillColor(INK)
+    c.setFont("Helvetica-Bold", 13)
+    c.drawString(M, H - 125, "What is verified")
+    verified = [
+        "Every item has a different official product photograph.",
+        "Names, public JPY prices and product links came from the official Delfonics web shop.",
+        "Selected items showed no out-of-stock notice when checked on 11 October 2026.",
+    ]
+    y = H - 155
+    c.setFillColor(MUTED)
+    c.setFont("Helvetica", 10)
+    for line in verified:
+        c.drawString(M + 12, y, "- " + line)
+        y -= 25
+    c.setFillColor(INK)
+    c.setFont("Helvetica-Bold", 13)
+    c.drawString(M, y - 12, "What still needs confirmation")
+    y -= 42
+    pending = [
+        "Current stock and available colors at the time of order.",
+        "Quantity limits, wholesale access, resale conditions and lead time.",
+        "Domestic and international shipping, duties and service fees.",
+    ]
+    c.setFillColor(MUTED)
+    c.setFont("Helvetica", 10)
+    for line in pending:
+        c.drawString(M + 12, y, "- " + line)
+        y -= 25
+    c.setFillColor(NAVY)
+    c.roundRect(M, 55, W - 2 * M, 74, 5, fill=1, stroke=0)
+    c.setFillColor(white)
+    c.setFont("Helvetica-Bold", 17)
+    c.drawString(M + 20, 98, "Ready to shortlist?")
+    c.setFont("Helvetica", 10)
+    c.drawString(M + 20, 76, "Send the GP codes, quantities and destination market through the website contact form.")
     c.showPage()
 
 
 def main():
-    OUT.parent.mkdir(parents=True, exist_ok=True)
     c = canvas.Canvas(str(OUT), pagesize=landscape(A4), pageCompression=1)
-    c.setTitle("200-Item Japanese Stationery Catalogue - Guinea Pig Trading")
+    c.setTitle("Buyer-Ready Japanese Stationery Shortlist - Guinea Pig Trading")
     c.setAuthor("Guinea Pig Trading")
     cover(c)
-    contents(c)
-    page_no = 3
-    start = 0
-    while start < len(PRODUCTS):
-        kind = PRODUCTS[start]["kind"]
-        end = start
-        while end < len(PRODUCTS) and PRODUCTS[end]["kind"] == kind:
-            end += 1
-        group = PRODUCTS[start:end]
-        section_opener(c, kind, group, page_no)
-        page_no += 1
-        for offset in range(0, len(group), 20):
-            table_page(c, group[offset:offset + 20], page_no)
-            page_no += 1
-        start = end
-    sources_page(c, page_no)
+    buying_notes(c)
+    page = 3
+    for category in ["Notebooks & storage", "Accessories", "Diary & planning"]:
+        group = [item for item in PRODUCTS if item["category"] == category]
+        for start in range(0, len(group), 6):
+            product_page(c, category, group[start:start + 6], page)
+            page += 1
+    notes(c, page)
     c.save()
     print(OUT)
 
