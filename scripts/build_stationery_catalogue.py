@@ -61,12 +61,36 @@ products = [
     ("GP-028", "NeoCritz pencil case", "Flat", "Kokuyo", "kokuyo-neocritz.webp"),
     ("GP-029", "NeoCritz pencil case", "Mini", "Kokuyo", "kokuyo-neocritz.webp"),
     ("GP-030", "NeoCritz pencil case", "Assorted color", "Kokuyo", "kokuyo-neocritz.webp"),
+    # Additional writing and paper options
+    ("GP-031", "Mildliner Brush set", "Fluorescent", "Zebra", "zebra-mildliner.jpg"),
+    ("GP-032", "Mildliner Brush set", "Cool", "Zebra", "zebra-mildliner.jpg"),
+    ("GP-033", "Mildliner Brush set", "Warm", "Zebra", "zebra-mildliner.jpg"),
+    ("GP-034", "Mildliner Brush set", "Friendly", "Zebra", "zebra-mildliner.jpg"),
+    ("GP-035", "Mildliner Brush set", "Natural", "Zebra", "zebra-mildliner.jpg"),
+    ("GP-036", "MD Notebook B6 Slim", "Blank", "MD PAPER", "md-notebook.webp"),
+    ("GP-037", "MD Notebook B6 Slim", "Ruled", "MD PAPER", "md-notebook.webp"),
+    ("GP-038", "MD Notebook B6 Slim", "Grid", "MD PAPER", "md-notebook.webp"),
+    ("GP-039", "MD Notebook Cotton A5", "Blank", "MD PAPER", "md-notebook.webp"),
+    ("GP-040", "MD Notebook Light A5", "3-book pack", "MD PAPER", "md-notebook.webp"),
+    # Additional notebook and decoration options
+    ("GP-041", "Rollbahn Pocket Memo", "Mini size", "Delfonics", "delfonics-rollbahn.jpg"),
+    ("GP-042", "Rollbahn Pocket Memo", "Slim size", "Delfonics", "delfonics-rollbahn.jpg"),
+    ("GP-043", "Rollbahn Pocket Memo", "XL size", "Delfonics", "delfonics-rollbahn.jpg"),
+    ("GP-044", "Rollbahn Pocket Memo", "Landscape", "Delfonics", "delfonics-rollbahn.jpg"),
+    ("GP-045", "Rollbahn Pocket Memo", "Assorted cover", "Delfonics", "delfonics-rollbahn.jpg"),
+    ("GP-046", "Deco Rush", "Planner motif", "PLUS", "plus-deco-rush.jpg"),
+    ("GP-047", "Deco Rush", "Animal motif", "PLUS", "plus-deco-rush.jpg"),
+    ("GP-048", "Deco Rush", "Flower motif", "PLUS", "plus-deco-rush.jpg"),
+    ("GP-049", "Deco Rush", "Food motif", "PLUS", "plus-deco-rush.jpg"),
+    ("GP-050", "Deco Rush", "Seasonal motif", "PLUS", "plus-deco-rush.jpg"),
 ]
 
 sections = [
     ("PENS & MARKERS", products[:10]),
     ("NOTEBOOKS & PAPER", products[10:20]),
-    ("DECORATION & DESK ACCESSORIES", products[20:]),
+    ("DECORATION & DESK ACCESSORIES", products[20:30]),
+    ("MORE WRITING & PAPER", products[30:40]),
+    ("MORE NOTEBOOKS & DECORATION", products[40:50]),
 ]
 
 
@@ -158,7 +182,7 @@ def source_page(c, page_no):
     c.drawString(M, y, "Catalogue notes")
     notes = [
         "Product photographs are from the official maker or official shop pages listed above.",
-        "Catalogue codes GP-001 to GP-030 are Guinea Pig Trading reference codes, not maker item numbers.",
+        "Catalogue codes GP-001 to GP-050 are Guinea Pig Trading reference codes, not maker item numbers.",
         "Models, colors, packaging, availability, wholesale access and prices must be checked before quotation.",
         "Images may show a product family; the exact requested variant will be confirmed before purchase.",
     ]
@@ -185,7 +209,7 @@ def main():
     c.setAuthor("Guinea Pig Trading")
     for page_no, (title, items) in enumerate(sections, start=1):
         draw_section(c, title, items, page_no)
-    source_page(c, 4)
+    source_page(c, 6)
     c.save()
     print(OUT)
 
