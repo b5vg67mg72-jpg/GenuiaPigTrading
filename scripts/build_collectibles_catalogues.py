@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Guinea Pig Trading Gunpla and figure catalogue PDFs."""
+"""Build the Guinea Pig Trading character-figure catalogue PDF."""
 
 from pathlib import Path
 from urllib.request import Request, urlopen
@@ -251,19 +251,6 @@ def build_catalogue(filename, title, subtitle, prefix, items, source_name, sourc
 
 def main():
     TMP.mkdir(parents=True, exist_ok=True)
-    gunpla = build_catalogue(
-        "japanese-gunpla-catalogue.pdf",
-        "GUNPLA\nCATALOGUE",
-        "Models worth asking us to source",
-        "GP-G",
-        GUNPLA,
-        "retailer",
-        [
-            "Product photos and reference prices: Gundam Planet product listings.",
-            "Prices shown in USD for comparison only; Guinea Pig Trading quotes in JPY after checking Japan stock.",
-            "Gunpla is a trademark of Bandai. This is an independent sourcing shortlist, not an official Bandai catalogue.",
-        ],
-    )
     figures = build_catalogue(
         "japanese-figure-catalogue.pdf",
         "FIGURE\nCATALOGUE",
@@ -277,7 +264,6 @@ def main():
             "This is an independent Guinea Pig Trading shortlist, not an official Bandai Spirits publication.",
         ],
     )
-    print(gunpla)
     print(figures)
 
 
