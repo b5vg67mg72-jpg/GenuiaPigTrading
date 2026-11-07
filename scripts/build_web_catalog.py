@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Build three 100-item web catalogues from official Japanese product sites."""
+"""Build three 100-item customer catalogues from Japanese product listings."""
 
 from concurrent.futures import ThreadPoolExecutor
 from html import unescape
 from pathlib import Path
 import json
+import math
 import re
 import urllib.parse
 import urllib.request
@@ -24,6 +25,15 @@ def fetch(url):
 
 def clean(value):
     return re.sub(r"\s+", " ", unescape(re.sub(r"<[^>]+>", "", value))).strip()
+
+
+def customer_price(value, minimum=4.95):
+    """Turn a JPY listing price into a competitive customer-facing USD price."""
+    digits = re.sub(r"[^0-9]", "", str(value))
+    if not digits:
+        return "Price on request"
+    usd = max(minimum, math.ceil(int(digits) / 120) - 0.05)
+    return f"${usd:.2f}"
 
 
 def stationery():
@@ -52,7 +62,7 @@ def stationery():
                     "id": f"ST-{len(products) + 1:03d}",
                     "name": payload["name"],
                     "brand": "Rollbahn · DELFONICS",
-                    "price": f"¥{int(payload['price']):,}",
+                    "price": customer_price(payload["price"]),
                     "source": "https://shop.delfonics.com" + path.group(1),
                     "image_url": unescape(image.group(1)).split("?")[0],
                     "image": f"assets/catalog/web/stationery/{code}.jpg",
@@ -87,7 +97,7 @@ def figures():
                     "id": f"FG-{len(products) + 1:03d}",
                     "name": title,
                     "brand": brand,
-                    "price": item.get("priceTaxStr") or "Price on request",
+                    "price": customer_price(item.get("priceTaxStr"), minimum=14.95),
                     "source": "https://tamashiiweb.com/item/" + item["tamashiiWebId"] + "/",
                     "image_url": image_url,
                     "image": f"assets/catalog/web/figures/{item['tamashiiWebId']}.webp",
@@ -124,7 +134,7 @@ def gashapon():
                 "id": f"GC-{len(products) + 1:03d}",
                 "name": product_name,
                 "brand": clean(category.group(1)) if category else "Bandai Gashapon",
-                "price": f"¥{clean(price.group(1))}",
+                "price": customer_price(clean(price.group(1))),
                 "source": urllib.parse.urljoin("https://gashapon.jp/products/", href),
                 "image_url": unescape(image.group(1)),
                 "image": f"assets/catalog/web/gashapon/{code}.jpg",
@@ -155,6 +165,7 @@ def main():
     for items in categories.values():
         for item in items:
             item.pop("image_url", None)
+            item.pop("source", None)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     (DATA_DIR / "catalog.json").write_text(
         json.dumps(categories, ensure_ascii=False, separators=(",", ":")),
