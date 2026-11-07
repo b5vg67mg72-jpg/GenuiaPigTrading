@@ -1271,6 +1271,171 @@
           padding: 16px 19px;
         }
       }
+      main > section:not(.hero):not(.category-gateway),
+      main > .strip {
+        display: none;
+      }
+      .hero {
+        padding: 38px 0 34px;
+      }
+      .hero-grid {
+        display: block;
+        max-width: 1120px;
+        margin-inline: auto;
+      }
+      .hero-grid > div:first-child {
+        display: grid;
+        grid-template-columns: 1.04fr 0.96fr;
+        column-gap: 58px;
+        align-items: start;
+      }
+      .hero-grid .site-note,
+      .hero-grid h1 {
+        grid-column: 1;
+      }
+      .hero-grid .site-note {
+        grid-row: 1;
+        justify-self: start;
+      }
+      .hero-grid h1 {
+        grid-row: 2 / span 5;
+      }
+      .hero-grid .lead {
+        grid-column: 2;
+        grid-row: 2;
+        margin-top: 5px;
+      }
+      .hero-grid .founder-intro {
+        grid-column: 2;
+        grid-row: 3;
+      }
+      .hero-grid .hero-actions {
+        grid-column: 2;
+        grid-row: 4;
+      }
+      .hero-grid .micro {
+        grid-column: 2;
+        grid-row: 5;
+      }
+      .trust-card {
+        display: none;
+      }
+      .hero h1 {
+        max-width: 780px;
+        font-size: clamp(50px, 5vw, 70px);
+      }
+      .category-gateway {
+        display: block;
+        padding: 42px 0 72px;
+        background: #fffdf8;
+      }
+      .gateway-head {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 30px;
+        margin-bottom: 26px;
+      }
+      .gateway-head h2 {
+        max-width: 650px;
+        margin: 0;
+        font: 600 clamp(35px, 4.5vw, 54px) / 1.03 var(--serif);
+      }
+      .gateway-head p {
+        max-width: 440px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.65;
+      }
+      .gateway-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+      }
+      .gateway-card {
+        position: relative;
+        display: flex;
+        min-height: 430px;
+        flex-direction: column;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fff;
+        box-shadow: 0 14px 36px rgba(23, 53, 47, 0.08);
+        transition: 0.2s ease;
+      }
+      .gateway-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 22px 45px rgba(23, 53, 47, 0.14);
+      }
+      .gateway-image {
+        height: 260px;
+        padding: 18px;
+        background: linear-gradient(145deg, #f7f4ec, #edf2ed);
+      }
+      .gateway-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .gateway-copy {
+        display: flex;
+        flex: 1;
+        align-items: end;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 23px;
+      }
+      .gateway-copy small {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--gold);
+        font-size: 8px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .gateway-copy h3 {
+        margin: 0;
+        font: 600 29px/1 var(--serif);
+      }
+      .gateway-arrow {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--forest);
+        color: #fff;
+      }
+      @media (max-width: 800px) {
+        .hero-grid > div:first-child {
+          display: block;
+        }
+        .gateway-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+        .gateway-grid {
+          grid-template-columns: 1fr;
+        }
+        .gateway-card {
+          min-height: 0;
+        }
+      }
+      @media (max-width: 620px) {
+        .hero {
+          padding: 46px 0 50px;
+        }
+        .category-gateway {
+          padding: 48px 0 60px;
+        }
+        .gateway-image {
+          height: 220px;
+        }
+      }
       @media (prefers-reduced-motion: reduce) {
         .button,
         .product,
@@ -1291,9 +1456,10 @@
           ></a
         >
         <nav class="nav" id="nav">
-          <a href="#catalogue">Catalogue</a><a href="#commercial">Pricing</a
-          ><a href="#process">Process</a><a href="terms.html">Terms</a
-          ><a class="nav-cta" href="#contact">Request a quote</a>
+          <a href="#categories">Products</a><a href="terms.html">Terms</a
+          ><a class="nav-cta" href="mailto:xiaoyueliu111@gmail.com"
+            >Request a quote</a
+          >
         </nav>
         <button
           class="menu"
@@ -1331,8 +1497,8 @@
               </div>
             </div>
             <div class="hero-actions">
-              <a class="button" href="#catalogue">See sample prices →</a
-              ><a class="button outline" href="#contact"
+              <a class="button" href="#categories">Browse categories →</a
+              ><a class="button outline" href="mailto:xiaoyueliu111@gmail.com"
                 >Tell me what you need</a
               >
             </div>
@@ -1377,6 +1543,56 @@
               </div>
             </dl>
           </aside>
+        </div>
+      </section>
+      <section class="category-gateway" id="categories">
+        <div class="wrap">
+          <div class="gateway-head">
+            <h2>Choose a category to explore.</h2>
+            <p>
+              Three focused catalogues, each with 100 products and official
+              source references. Click a category, choose item codes, then ask
+              Lizzy for a current quote.
+            </p>
+          </div>
+          <div class="gateway-grid">
+            <a class="gateway-card" href="products.html?category=figures">
+              <div class="gateway-image">
+                <img
+                  src="assets/catalog/web/figures/16253.webp"
+                  alt="Japanese character figure"
+                />
+              </div>
+              <div class="gateway-copy">
+                <div><small>100 products</small><h3>Figures</h3></div>
+                <span class="gateway-arrow">→</span>
+              </div>
+            </a>
+            <a class="gateway-card" href="products.html?category=stationery">
+              <div class="gateway-image">
+                <img
+                  src="assets/catalog/web/stationery/601651.jpg"
+                  alt="Japanese stationery"
+                />
+              </div>
+              <div class="gateway-copy">
+                <div><small>100 products</small><h3>Stationery</h3></div>
+                <span class="gateway-arrow">→</span>
+              </div>
+            </a>
+            <a class="gateway-card" href="products.html?category=gashapon">
+              <div class="gateway-image">
+                <img
+                  src="assets/catalog/web/gashapon/4570118186362000.jpg"
+                  alt="Japanese capsule toy"
+                />
+              </div>
+              <div class="gateway-copy">
+                <div><small>100 products</small><h3>Gashapon</h3></div>
+                <span class="gateway-arrow">→</span>
+              </div>
+            </a>
+          </div>
         </div>
       </section>
       <div class="strip">
@@ -2111,7 +2327,7 @@
           affiliation or official authorisation is implied.
         </p>
         <div class="footer-links">
-          <a href="catalog.html">Catalogue</a
+          <a href="#categories">Products</a
           ><a href="mailto:xiaoyueliu111@gmail.com">Email</a
           ><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a
           ><a href="#top">Top ↑</a>
