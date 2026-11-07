@@ -756,6 +756,37 @@
       .lead {
         max-width: 610px;
       }
+      .founder-intro {
+        display: grid;
+        grid-template-columns: 46px 1fr;
+        gap: 14px;
+        align-items: center;
+        max-width: 610px;
+        margin: -4px 0 24px;
+        padding: 14px 16px;
+        border: 1px solid rgba(23, 53, 47, 0.14);
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.58);
+      }
+      .founder-intro img {
+        width: 46px;
+        height: 46px;
+        padding: 4px;
+        border-radius: 50%;
+        background: #fff;
+        object-fit: contain;
+      }
+      .founder-intro strong {
+        display: block;
+        margin-bottom: 3px;
+        font: 600 17px/1.15 var(--serif);
+      }
+      .founder-intro p {
+        margin: 0;
+        color: #65716c;
+        font-size: 10px;
+        line-height: 1.55;
+      }
       .micro {
         display: flex;
         align-items: center;
@@ -1285,6 +1316,20 @@
               figures, stationery and compact gifts. You receive named products,
               source checks and a written total before anything is purchased.
             </p>
+            <div class="founder-intro">
+              <img
+                src="assets/guinea-pig-trading-logo.png"
+                alt="Guinea Pig Trading"
+              />
+              <div>
+                <strong>Hi, I’m Lizzy Brown.</strong>
+                <p>
+                  I run Guinea Pig Trading from Japan and personally coordinate
+                  each buyer enquiry. Nothing is purchased until you approve a
+                  written, itemised quote.
+                </p>
+              </div>
+            </div>
             <div class="hero-actions">
               <a class="button" href="#catalogue">See sample prices →</a
               ><a class="button outline" href="#contact"
